@@ -73,9 +73,47 @@ function verifyTokenJwt(req, res, next) {
 
 app.get("/services", async (req, res) => {
   try {
-    const cursor = serviceCollection.find({});
-    const services = await cursor.toArray();
+    const order = req.query.order === "ase" ? 1 : -1;
+    // shorting data
+    // const query = { price: { $lt: 100 }};
+    // const query = { price: { $gt: 100 } };
+    // const query = { price: { $eq: 200 } };
+    // const query = { price: { $gte: 100 } };
+    // const query = { price: { $lte: 100 } };
+    // const query = { price: { $ne: 100 } };
+    // const query = { price: { $in: [100, 25, 20, 90, 200] } };
+    // const query = { price: { $nin: [100, 25, 20, 90, 200] } };
+    // const query = { price: { $exists: true } };
+    // const query = { price: { $exists: false } };
+    // const query = { price: { $type: "number" } };
+    // const query = { price: { $type: "string" } };
+    // const query = { price: { $type: "object" } };
+    // const query = { price: { $type: "array" } };
+    // const query = { price: { $type: "null" } };
+    // const query = { price: { $type: "boolean" } };
+    // const query = { price: { $type: "date" } };
+    // const query = { price: { $type: "timestamp" } };
+    // const query = { price: { $type: "regex" } };
+    // const query = { price: { $mod: [2, 0] } };
+    // const query = { price: { $mod: [2, 1] } };
+    // const query = { price: { $mod: [3, 0] } };
+    // const query = { price: { $mod: [3, 1] } };
+    // const query = { price: { $mod: [3, 2] } };
+    // const query = { $and: [{ price: { $gt: 20 } }, { price: { lt: 100 } }] };
+    // const query = { $or: [{ price: { $gt: 20 } }, { price: { lt: 100 } }] };
+    let search = req.query.search;
+    let query = {};
 
+    // serch by title
+
+    if (search.length) {
+      query = {
+        $text: { $search: search },
+      };
+    }
+
+    const cursor = serviceCollection.find(query).sort({ price: order });
+    const services = await cursor.toArray();
     res.send({
       success: true,
       message: "Successfully got the data",
