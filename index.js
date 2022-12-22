@@ -14,7 +14,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("Hey there! wellcome to car docter server !!!");
+  res.send("Hey there! wellcome to car docter server starting car sever !!!");
 });
 
 /// ========================= DB Connection =========================
@@ -274,5 +274,5 @@ app.patch("/updateOrder/:id", async (req, res) => {
 ///========================= Midils Wares =========================
 
 app.listen(port, () => {
-  console.log(`Car Docter Server Is Runing  ${port}`.blue.bold);
+  console.log(`Car Docter Server Is Runing On Port ${port}`.blue.bold);
 });
